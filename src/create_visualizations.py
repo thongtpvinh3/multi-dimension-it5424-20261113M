@@ -149,7 +149,7 @@ def plot_weather_scatter(df: pd.DataFrame, outdir: str) -> str:
 
     # 1. Làm sạch cột 'precip': ép về số, lỗi -> NaN, rồi điền 0.0 cho giá trị khuyết.
     data = df.copy()
-    data["precip"] = pd.to_numeric(data["precip"], errors="coerce").fillna(0.0)
+    data["precip"] = pd.to_numeric(data["precip"], errors="coerce").fillna(0)
 
     # 2. Tạo figure.
     plt.figure(figsize=(9, 6))
@@ -192,15 +192,16 @@ def plot_weather_scatter(df: pd.DataFrame, outdir: str) -> str:
     ax.add_artist(legend_city)  # giữ lại legend này khi thêm legend thứ 2
 
     # 6. Legend tùy chỉnh cho LƯỢNG MƯA (kích thước điểm).
-    p_min, p_max = data["precip"].min(), data["precip"].max()
+    p_min = float(data["precip"].min())
+    p_max = float(data["precip"].max())
+
     # chọn 4 giá trị đại diện từ 0 đến max
-    precip_levels = np.linspace(0, p_max if p_max > 0 else 1, 4)
+    precip_levels = np.linspace(p_min, p_max, 4)
     size_handles = []
     for level in precip_levels:
         # ánh xạ giá trị mưa -> kích thước điểm bằng nội suy tuyến tính
         s = np.interp(level, [p_min, p_max if p_max > 0 else 1], size_range)
-        h = plt.scatter([], [], s=s, color="gray", alpha=0.6,
-                        label=f"{level:.2f}")
+        h = plt.scatter([], [], s=s, color="gray", alpha=0.6, label=f"{level:.2f}")
         size_handles.append(h)
     ax.legend(
         handles=size_handles,
@@ -392,7 +393,7 @@ def main() -> List[str]:
     weather_path = os.path.join(data_dir, "weather_data.csv")
     weather_df = pd.read_csv(weather_path)
     # Plot heatmap and scatter
-    figures.append(plot_weather_heatmap(weather_df, out_dir))
+    # figures.append(plot_weather_heatmap(weather_df, out_dir))
     figures.append(plot_weather_scatter(weather_df, out_dir))
 
     # Load and plot global temperature anomalies
@@ -402,12 +403,12 @@ def main() -> List[str]:
     global_df = global_df.replace("***", pd.NA)
     for col in global_df.columns[1:]:
         global_df[col] = pd.to_numeric(global_df[col], errors="coerce")
-    figures.append(plot_global_temp_heatmap(global_df, out_dir))
+    # figures.append(plot_global_temp_heatmap(global_df, out_dir))
 
     # Load and plot Minnesota weather data
     minn_path = os.path.join(data_dir, "minnesota_weather.csv")
     minn_df = pd.read_csv(minn_path)
-    figures.append(plot_minnesota_precip_line(minn_df, out_dir))
+    # figures.append(plot_minnesota_precip_line(minn_df, out_dir))
     return figures
 
 

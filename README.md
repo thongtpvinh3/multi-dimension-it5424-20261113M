@@ -33,17 +33,42 @@ Script `create_visualizations.py` tải các file CSV này bằng thư viện `p
 
 Bản đồ nhiệt này tổng hợp dữ liệu thời tiết hàng ngày thành nhiệt độ trung bình hàng tháng cho từng thành phố. Việc nhóm theo tháng và thành phố, sau đó xoay bảng dữ liệu (pivot table) sẽ tạo ra một ma trận nhiệt độ trung bình. Bảng màu phân kỳ `coolwarm` làm nổi bật các giá trị cao bằng màu đỏ và giá trị thấp bằng màu xanh lam. Việc ghi chú giá trị số cụ thể lên từng ô giúp thể hiện rõ ràng sự khác biệt về số liệu. Thanh thang đo màu được dán nhãn *“Average temperature”* (Nhiệt độ trung bình) để phản ánh các giá trị nhiệt độ theo độ Fahrenheit (°F) cơ sở【209500219273106†L108-L135】, và các tháng được sắp xếp từ 1 đến 12. Bản đồ nhiệt rất hiệu quả trong việc thể hiện các quy luật trên hai chiều phân loại; ở đây chúng cho thấy Bắc Kinh và Chicago có sự dao động theo mùa rất lớn (nhiệt độ mùa đông gần mức đóng băng và đỉnh điểm mùa hè gần 80 °F), Auckland có khí hậu ôn đới hải dương ôn hòa với nhiệt độ dao động trong khoảng 50–70 °F quanh năm, San Diego duy trì khí hậu ôn hòa ổn định, và Mumbai luôn ở mức trên 70 °F trong suốt cả năm. Một phần chú thích chi tiết được thêm vào bên dưới biểu đồ trong báo cáo cuối cùng.
 
+Insight cốt lõi là biên độ dao động nhiệt độ theo mùa của mỗi thành phố tiết lộ kiểu khí hậu của nó, điều mà một con số trung bình năm đơn lẻ sẽ che giấu:
+
+* Bắc Kinh và Chicago dao động rất mạnh — mùa đông gần mức đóng băng (~32 °F) và đỉnh điểm mùa hè gần 80 °F — đặc trưng của khí hậu lục địa/ôn đới với bốn mùa rõ rệt.
+* Auckland giữ trong khoảng 50–70 °F quanh năm: khí hậu hải dương ôn hòa, biên độ hẹp.
+* San Diego ổn định và dễ chịu suốt cả năm (khí hậu Địa Trung Hải ven biển).
+* Mumbai luôn ở trên 70 °F mọi tháng: khí hậu nhiệt đới, gần như không có "mùa lạnh".
+
 ### 2. 🌬️💧 Nhiệt độ hàng ngày so với Độ ẩm tích hợp Lượng mưa (Biểu đồ phân tán - Scatter Plot)
 
 Để khám phá mối quan hệ giữa nhiều biến số trong dữ liệu thời tiết hàng ngày, một biểu đồ phân tán đã được sử dụng. Mỗi điểm đại diện cho một ngày; trục hoành (*x*-axis) hiển thị độ ẩm tương đối trung bình, trục tung (*y*-axis) hiển thị nhiệt độ trung bình (vẫn tính bằng °F), màu sắc của điểm biểu thị thành phố và kích thước điểm biểu thị lượng mưa (lượng mưa vết đã được quy về 0). Biểu đồ phân tán cho phép chúng ta quan sát xem những ngày ấm hơn có xu hướng ẩm ướt hơn hay không, và liệu các sự kiện mưa lớn có trùng khớp với những sự kết hợp nhiệt độ - độ ẩm cụ thể nào không. Biểu đồ chỉ ra rằng Mumbai và Auckland nhìn chung có độ ẩm và lượng mưa cao hơn, trong khi Bắc Kinh và Chicago có độ ẩm thấp hơn vào các tháng lạnh và lượng mưa ít. Các ngày có mưa xuất hiện dưới dạng các điểm lớn hơn tập trung ở các giá trị độ ẩm vừa phải. Các phần chú giải (legend) cho màu sắc và kích thước được đặt bên ngoài vùng vẽ biểu đồ để tránh đè lên dữ liệu.
+
+Mối liên hệ giữa nhiệt độ, độ ẩm và lượng mưa không đồng nhất mà phân tách theo vùng khí hậu:
+
+* Mumbai và Auckland nằm ở vùng độ ẩm và lượng mưa cao hơn (điểm to hơn, dồn về phía bên phải).
+* Bắc Kinh và Chicago có độ ẩm thấp hơn vào các tháng lạnh và ít mưa hơn.
+* Các ngày mưa lớn (điểm có kích thước lớn) tập trung ở vùng độ ẩm vừa đến cao — tức mưa lớn đi cùng độ ẩm cao chứ không xuất hiện ngẫu nhiên.
 
 ### 3. 🔥🧊 Bản đồ nhiệt dị thường nhiệt độ toàn cầu (Global temperature anomalies heatmap)
 
 Đối với bộ dữ liệu GISTEMP, trước tiên script sẽ bỏ qua dòng tiêu đề mô tả và chuyển đổi các mục nhập `***` thành các giá trị khuyết (missing values). Các cột dị thường hàng tháng được chuyển đổi từ dạng ngang (wide) sang dạng dọc (long) và sau đó được xoay trở lại thành ma trận Năm × Tháng. Bản đồ nhiệt với bảng màu `coolwarm` hiển thị các mức dị thường từ −1,5 °C đến +1,5 °C so với mốc cơ sở 1951–1980【57940960815465†L124-L139】. Sắc xanh biểu thị nhiệt độ mát hơn mốc cơ sở, trong khi sắc đỏ biểu thị điều kiện ấm hơn. Trực quan hóa này thể hiện rõ nét sự ấm lên dần dần của hành tinh: những thập kỷ đầu tiên (thập niên 1880 – 1930) chủ yếu là màu xanh lam, các thập kỷ giữa thế kỷ chuyển dần sang các màu trung tính, và những thập kỷ gần đây nhất (từ thập niên 1980 trở đi) bị áp đảo hoàn toàn bởi màu đỏ. Sự ấm lên mạnh mẽ nhất xuất hiện trong thập kỷ qua (thập niên 2010 – 2020), trong đó năm 2016 và 2020 nổi bật lên là những năm đặc biệt nóng. Trục hoành sử dụng các chữ viết tắt tên tháng để dễ nhìn và trục tung liệt kê từng năm từ năm 1880 trở đi. Một ma trận dày đặc như vậy tốt nhất nên được diễn giải bằng hình ảnh trực quan thay vì các bảng văn bản; các quy luật trên cả quy mô mùa và quy mô nhiều thập kỷ sẽ hiện ra ngay lập tức chỉ trong nháy mắt.
 
+Trái Đất đang ấm lên một cách rõ rệt và ngày càng tăng tốc:
+
+* Các thập niên đầu (1880s–1930s) chủ yếu xanh lam — mát hơn mốc cơ sở 1951–1980.
+* Giữa thế kỷ chuyển sang các sắc trung tính.
+* Từ thập niên 1980 trở đi, bảng màu đỏ áp đảo hoàn toàn — ấm hơn mốc cơ sở.
+* Sự ấm lên mạnh nhất rơi vào thập kỷ gần nhất (2010s), với 2016 và 2020 nổi bật là những năm đặc biệt nóng.
+
 ### 4. 🌧️ Lượng mưa hàng tháng theo địa điểm ở Minnesota (Biểu đồ đường - Line Chart)
 
 Dữ liệu lúa mạch Minnesota được sử dụng để khảo sát lượng mưa thay đổi như thế nào giữa các địa điểm trong khoảng thời gian mười năm. Biểu đồ đường được chọn vì nó truyền tải các xu hướng thời gian một cách hiệu quả. Script tạo ra một cột ngày tháng từ năm và tháng, sau đó vẽ lượng mưa (tính bằng inch) theo trục thời gian này, với các đường riêng biệt cho từng địa điểm. Phần chú giải giúp xác định rõ các địa điểm và bố cục được căn chỉnh chặt chẽ giúp biểu đồ gọn gàng. Biểu đồ cho thấy lượng mưa đạt đỉnh vào các tháng mùa hè (tháng 6 – tháng 8) tại tất cả các địa điểm, phản ánh khí hậu lục địa của Minnesota, và Waseca cùng St. Paul có xu hướng nhận được nhiều lượng mưa hơn so với Morris hoặc Crookston. Việc thiếu dữ liệu của Duluth vào tháng 12 năm 1931 được thể hiện rõ ràng bằng một khoảng trống ngắt quãng trên đường biểu diễn【635360545156382†L76-L81】.
+
+Dữ liệu cho thấy rằng:
+
+* Chu kỳ mùa rõ ràng: lượng mưa đạt đỉnh vào các tháng mùa hè (tháng 6–8) ở tất cả các địa điểm, phản ánh khí hậu lục địa của Minnesota.
+* Khác biệt không gian giữa các trạm gần nhau: Waseca và St. Paul thường nhận nhiều mưa hơn Morris hoặc Crookston — dù cùng một bang, lượng mưa vẫn chênh lệch theo vị trí.
 
 ## 💡 Lựa chọn, thách thức và hướng phát triển
 
