@@ -1,4 +1,4 @@
-# 📊 Trực quan hóa Dữ liệu Khí hậu & Thủy văn Đa chiều
+# 📊 Trực quan hóa Dữ liệu Khí hậu & Thủy văn Đa chiều - 20261113M
 
 Chào mừng! Dự án này mang đến một khám phá ngắn gọn nhưng sinh động về ba bộ dữ liệu thực tế liên quan đến thời tiết và khí hậu. Mục tiêu rất đơn giản: **biến các bảng dữ liệu thô thành những hình ảnh** kể câu chuyện về các quy luật trên nhiều chiều kích — thời gian, không gian, nhiệt độ, độ ẩm và nhiều hơn nữa. Một script Python trong `src/create_visualizations.py` sẽ thực hiện phần công việc nặng nhọc, đọc các file CSV trong thư mục `data/`, tạo ra các biểu đồ bằng các thư viện quen thuộc như `pandas`, `matplotlib` và `seaborn`, rồi lưu chúng vào thư mục `output/`. Dưới đây là cái nhìn nhanh về cấu trúc thư mục:
 
@@ -58,8 +58,11 @@ Có một số hướng để mở rộng dự án này. Đối với dữ liệ
 ## 🏗️ Cách chạy dự án
 
 1. Đảm bảo bạn đã cài đặt Python 3 cùng các gói sau: `pandas`, `matplotlib`, `seaborn` và `numpy` 📚. Việc sử dụng môi trường ảo (virtual environment) sẽ giúp quản lý các thư viện phụ thuộc một cách dễ dàng.
-2. Chạy lệnh `python src/create_visualizations.py` từ thư mục gốc của kho lưu trữ này. Script sẽ tải các tệp dữ liệu từ thư mục `data/` và ghi bốn tệp hình ảnh vào thư mục `output/`. Mỗi biểu đồ được lưu ở độ phân giải 300 dpi để phù hợp chèn vào các báo cáo.
-3. Xem các biểu đồ trong thư mục `output/`. Các phần mô tả chi tiết ở trên đã tóm tắt những phát hiện chính. Bạn có thể thử nghiệm với các loại biểu đồ khác hoặc sửa đổi script để khám phá các biến số khác.
+    ```python
+    pip install pandas matplotlib seaborn numpy
+    ```
+2. Chạy lệnh `python src/create_visualizations.py` từ thư mục gốc của kho lưu trữ này. Script sẽ tải các tệp dữ liệu từ thư mục `data/` và ghi bốn tệp hình ảnh vào thư mục `my-output/`. Mỗi biểu đồ được lưu ở độ phân giải 300 dpi để phù hợp chèn vào các báo cáo.
+3. Xem các biểu đồ trong thư mục `my-output/`. Các phần mô tả chi tiết ở trên đã tóm tắt những phát hiện chính. Bạn có thể thử nghiệm với các loại biểu đồ khác hoặc sửa đổi script để khám phá các biến số khác.
 
 ---
 
